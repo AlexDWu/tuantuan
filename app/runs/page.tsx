@@ -1,11 +1,15 @@
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Runs() {
+export default async function RunsPage() {
   const supabase = createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
 
   const { data: runs } = await supabase
     .from("runs")
