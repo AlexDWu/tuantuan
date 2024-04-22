@@ -1,6 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { Card, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { hashids } from "@/lib/utils";
 
 export default async function RunsPage() {
@@ -24,7 +31,12 @@ export default async function RunsPage() {
       <div>
         {runs?.map((run) => (
           <Card key={hashids.encode(run.id)}>
-            <CardHeader></CardHeader>
+            <CardHeader>
+              <CardTitle>{run.name}</CardTitle>
+              <CardDescription>Close date: {run.close_time}</CardDescription>
+              <CardContent>item images go here horizontally</CardContent>
+            </CardHeader>
+            <CardFooter>Buttons?</CardFooter>
           </Card>
         ))}
       </div>
