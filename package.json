@@ -12,6 +12,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "geist": "^1.2.1",
+    "hashids": "^2.3.0",
     "lucide-react": "^0.371.0",
     "next": "latest",
     "postcss": "8.4.33",
