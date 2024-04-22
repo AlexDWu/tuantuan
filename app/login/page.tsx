@@ -7,7 +7,7 @@ import { SubmitButton } from "./submit-button";
 export default function Login({
   searchParams,
 }: {
-  searchParams: { message: string };
+  searchParams: { message: string; from: string };
 }) {
   const signIn = async (formData: FormData) => {
     "use server";
@@ -23,6 +23,10 @@ export default function Login({
 
     if (error) {
       return redirect("/login?message=Could not authenticate user");
+    }
+
+    if (searchParams?.from) {
+      return redirect(searchParams.from);
     }
 
     return redirect("/protected");
@@ -55,7 +59,7 @@ export default function Login({
     <div className="flex w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
       <Link
         href="/"
-        className="group absolute left-8 top-8 flex items-center rounded-md bg-btn-background px-4 py-2 text-sm text-foreground no-underline hover:bg-btn-background-hover"
+        className="bg-btn-background hover:bg-btn-background-hover group absolute left-8 top-8 flex items-center rounded-md px-4 py-2 text-sm text-foreground no-underline"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +78,7 @@ export default function Login({
         Back
       </Link>
 
-      <form className="animate-in flex w-full flex-1 flex-col justify-center gap-2 text-foreground">
+      <form className="flex w-full flex-1 flex-col justify-center gap-2 text-foreground animate-in">
         <label className="text-md" htmlFor="email">
           Email
         </label>
