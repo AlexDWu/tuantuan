@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
@@ -32,6 +33,7 @@
     "eslint-config-next": "14.2.1",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "prettier-plugin-sql": "^0.18.0",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "supabase": "^1.153.4"
