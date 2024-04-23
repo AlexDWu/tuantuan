@@ -1,5 +1,5 @@
-import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <main
           className={cn(
-            "flex min-h-screen flex-col items-center font-sans antialiased",
+            "min-h-screen w-full flex flex-col items-center font-sans antialiased",
             fontSans.variable,
           )}
         >
