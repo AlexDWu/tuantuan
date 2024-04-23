@@ -12,6 +12,7 @@
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "embla-carousel-react": "^8.0.2",
     "geist": "^1.2.1",
     "hashids": "^2.3.0",
     "lucide-react": "^0.371.0",
