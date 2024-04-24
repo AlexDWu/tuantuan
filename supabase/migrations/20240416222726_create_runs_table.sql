@@ -17,4 +17,4 @@ create policy "Users can insert their own runs."
 
 create policy "Users can update own runs."
   on runs for update
-  using ( auth.uid() = created_by_id );
+  with check ( auth.uid() = created_by_id );
