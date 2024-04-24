@@ -17,12 +17,12 @@ import {
 import { hashids } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function RunDetailsPage({
-  params: { slug },
+  params: { run_slug },
 }: {
-  params: { slug: string };
+  params: { run_slug: string };
 }) {
   const supabase = createClient();
   const {
@@ -30,10 +30,10 @@ export default async function RunDetailsPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect(`/login?from=%2Fruns%2F${slug}`);
+    return redirect(`/login?from=%2Fruns%2F${run_slug}`);
   }
 
-  const runId = hashids.decode(slug);
+  const runId = hashids.decode(run_slug);
 
   const { data: runs } = await supabase.from("runs").select().eq("id", runId);
 
@@ -46,14 +46,14 @@ export default async function RunDetailsPage({
   return (
     <div className="w-full p-2">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Hello {slug}
+        Hello {run_slug}
       </h1>
       <p>Status: {run.status}</p>
       <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         Items:
       </h2>
       <div className="flex flex-col gap-2">
-        <Link href={`/runs/${slug}/item`}>
+        <Link href={`/runs/${run_slug}/items/new`}>
           <Button>Add Item</Button>
         </Link>
         {Array.from({ length: 7 }).map((_, itemIndex) => (
