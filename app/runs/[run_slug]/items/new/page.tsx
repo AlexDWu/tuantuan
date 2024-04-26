@@ -1,5 +1,6 @@
-import dynamic from "next/dynamic";
+import NewItemForm from "./form";
+// const NewItemForm = dynamic(() => import("./form"), { ssr: false });
 
-const NewItemPage = dynamic(() => import("./form"), { ssr: false });
-
-export default NewItemPage;
+export default function NewItemPage() {
+  return <NewItemForm />;
+}

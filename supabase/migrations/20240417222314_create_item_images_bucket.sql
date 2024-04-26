@@ -13,5 +13,5 @@ values
     'item-images',
     true,
     '{"image/*"}',
-    1000000
+    1024 * 1024 * 5
   );
