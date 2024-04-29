@@ -14,7 +14,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { hashids } from "@/lib/utils";
+import { hashids } from "@/lib/hashids";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
