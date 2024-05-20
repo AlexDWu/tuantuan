@@ -19,44 +19,33 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { createItem } from "@/lib/actions/items";
+import { generateItemSchema } from "@/lib/schemas/items";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const ItemSchema = generateItemSchema(z.instanceof(FileList));
+
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 
-const FormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  images: z
-    .any()
-    .refine((files) => files.length <= 3, "Maximum of 3 images")
-    .refine((files) =>
-      Array.from(files).every(
-        (file) => file.size <= MAX_FILE_SIZE,
-        "Max image size is 5MB",
-      ),
-    ),
-});
-
-export default function NewItemForm() {
-  const [formActionState, formAction] = useFormState(createItem, {
-    message: "I got nothing",
-  });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+export default function NewItemForm({ run_slug }: { run_slug: string }) {
+  const [formActionState, formAction] = useFormState(createItem);
+  const form = useForm<z.infer<typeof ItemSchema>>({
+    resolver: zodResolver(ItemSchema),
     mode: "onBlur",
     defaultValues: {
       name: "",
-      images: [],
+      price: "",
+      quantity: "",
+      max_qty_per_cust: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof ItemSchema>) {
     console.log("submitting");
     toast({
       title: "You submitted the following values:",
@@ -68,9 +57,7 @@ export default function NewItemForm() {
     });
   }
 
-  const images = form.watch("images");
-
-  console.log("rendering!");
+  const images = form.getValues("images");
 
   return (
     <Form {...form}>
@@ -80,13 +67,63 @@ export default function NewItemForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Run Name</FormLabel>
+              <FormLabel>Item Name</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input {...field} />
               </FormControl>
-              <FormDescription>
-                Give your run a name that you can easily identify.
-              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Item Description</FormLabel>
+              <FormControl>
+                <Textarea {...field} />
+              </FormControl>
+              <FormDescription>Optional</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="quantity"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Quantity</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="max_qty_per_cust"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Max Quantity Pre Customer</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -110,7 +147,7 @@ export default function NewItemForm() {
                   name={name}
                 />
               </FormControl>
-              <FormDescription>These are your item images.</FormDescription>
+              <FormDescription>Optional</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -134,6 +171,8 @@ export default function NewItemForm() {
             <CarouselNext />
           </Carousel>
         )}
+
+        <input type="hidden" id="run_slug" name="run_slug" value={run_slug} />
 
         <Button type="submit" disabled={!form.formState.isValid}>
           Submit
